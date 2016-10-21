@@ -9,7 +9,6 @@
       "Microsoft.AspNet.WebApi.Core": "5.2.3",
       "Microsoft.AspNet.WebApi.WebHost": "5.2.3",
       "Microsoft.Bot.Builder": "3.2.1",
-      "Microsoft.Bot.Connector.DirectLine": "1.0.1.0",
       "Microsoft.Diagnostics.Tracing.EventSource.Redist": "1.1.28",
       "Microsoft.IdentityModel.Protocol.Extensions": "1.0.2.206221351",
       "Microsoft.Net.Compilers": "1.2.1",
