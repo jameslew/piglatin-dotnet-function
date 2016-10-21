@@ -6,7 +6,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Autofac;
-using System.Diagnostics;
 using System.Text;
 using Microsoft.Rest;
 
