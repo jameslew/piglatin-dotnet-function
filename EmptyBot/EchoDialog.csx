@@ -35,11 +35,16 @@ public class EchoDialog : IDialog<object>
 
     public virtual async Task MessageReceivedAsync(IDialogContext dlgCtxt, IAwaitable<IMessageActivity> argument)
     {
+        var connector = new ConnectorClient(new Uri("https://intercomScratch.azure-api.net"), new Microsoft.Bot.Connector.MicrosoftAppCredentials());
+        var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
+        var botState = new BotState(sc);
+
         var message = await argument;
+
         if (message.Text.Contains("MessageTypesTest"))
         {
             Trace.TraceInformation("Starting MessageTypesTest");
-            var mtResult = await messageTypesTest((Activity) message, dlgCtxt); 
+            var mtResult = await messageTypesTest((Activity) message, connector, botState); 
             //await connector.Conversations.ReplyToActivityAsync(mtResult);
         }
         else if (message.Text.Contains("DataTypesTest"))
@@ -59,66 +64,60 @@ public class EchoDialog : IDialog<object>
         dlgCtxt.Wait(MessageReceivedAsync);
     }
 
-    private async Task<Activity> messageTypesTest(Activity message, IDialogContext context)
+    private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, BotState botState)
     {
-    
-        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, message))
+          StringBuilder sb = new StringBuilder();
+        // DM a user 
+        try
         {
-            var connector = scope.Resolve<IConnectorClient>() ;
+            var newDirectToUser = new Activity()
+            {
+                Text = "Should go directly to user",
+                Type = "message",
+                From = message.Recipient,
+                Recipient = message.From,
+                ChannelId = message.ChannelId
+            };
 
-            StringBuilder sb = new StringBuilder();
-            // DM a user 
-            try
-            {
-                var newDirectToUser = new Activity()
-                {
-                    Text = "Should go directly to user",
-                    Type = "message",
-                    From = message.Recipient,
-                    Recipient = message.From,
-                    ChannelId = message.ChannelId
-                };
-    
-                var ConversationId = await connector.Conversations.CreateDirectConversationAsync(message.Recipient, message.From);
-                newDirectToUser.Conversation = new ConversationAccount(id: ConversationId.Id);
-                var reply = await connector.Conversations.SendToConversationAsync(newDirectToUser);
-                if (reply != null)
-                    sb.AppendLine(reply.Message);
-            }
-            catch (Exception e)
-            {
-                Trace.TraceError("Failed to send DM, error: {0}", e.InnerException.Message);
-            }
-    
-            // message to conversation not directed to user using CreateReply
-            try
-            {
-                Activity replyToConversation = message.CreateReply("Should go to conversation, but does not address the user that generated it");
-                var bcReply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-                if(bcReply != null)
-                    sb.AppendLine(bcReply.Message);
-            }
-            catch (HttpOperationException e)
-            {
-                Trace.TraceError("Failed to send broadcast without mention, error: {0}", e.InnerException.Message);
-            }
-    
-            // reply to to user using CreateReply
-            try
-            {
-                Activity replyToConversation = message.CreateReply("Should go to conversation, but addressing the user that generated it");
-                replyToConversation.Recipient = message.From;
-                var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-                if (reply != null)
-                    sb.AppendLine(reply.Message);
-            }
-            catch (HttpOperationException e)
-            {
-                Trace.TraceError("Failed to send broadcast without mention, error: {0}", e.InnerException.Message);
-            }
-    
-            return message.CreateReply(translateToPigLatin("Completed MessageTypesTest"));
+            var ConversationId = await connector.Conversations.CreateDirectConversationAsync(message.Recipient, message.From);
+            newDirectToUser.Conversation = new ConversationAccount(id: ConversationId.Id);
+            var reply = await connector.Conversations.SendToConversationAsync(newDirectToUser);
+            if (reply != null)
+                sb.AppendLine(reply.Message);
         }
+        catch (Exception e)
+        {
+            Trace.TraceError("Failed to send DM, error: {0}", e.InnerException.Message);
+        }
+
+        // message to conversation not directed to user using CreateReply
+        try
+        {
+            Activity replyToConversation = message.CreateReply("Should go to conversation, but does not address the user that generated it");
+            var bcReply = await connector.Conversations.SendToConversationAsync(replyToConversation);
+            if(bcReply != null)
+                sb.AppendLine(bcReply.Message);
+        }
+        catch (HttpOperationException e)
+        {
+            Trace.TraceError("Failed to send broadcast without mention, error: {0}", e.InnerException.Message);
+        }
+
+        // reply to to user using CreateReply
+        try
+        {
+            Activity replyToConversation = message.CreateReply("Should go to conversation, but addressing the user that generated it");
+            replyToConversation.Recipient = message.From;
+            var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
+            if (reply != null)
+                sb.AppendLine(reply.Message);
+        }
+        catch (HttpOperationException e)
+        {
+            Trace.TraceError("Failed to send broadcast without mention, error: {0}", e.InnerException.Message);
+        }
+
+        return message.CreateReply(translateToPigLatin("Completed MessageTypesTest"));
     }
 
     private async Task<Activity> cardTypesTest(Activity message, ConnectorClient connector)
