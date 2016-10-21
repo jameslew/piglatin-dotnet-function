@@ -38,7 +38,7 @@ public class EchoDialog : IDialog<object>
         var message = await argument;
         if (message.Text.Contains("MessageTypesTest"))
         {
-            log.Info("Starting MessageTypesTest");
+            //log.Info("Starting MessageTypesTest");
             var mtResult = await messageTypesTest((Activity) message, dlgCtxt); 
             //await connector.Conversations.ReplyToActivityAsync(mtResult);
         }
