@@ -48,12 +48,12 @@ public class EchoDialog : IDialog<object>
         }
         else if (message.Text.Contains("DataTypesTest"))
         {
-            var dtResult = await dataTypesTest(message, connector, sc);
+            var dtResult = await dataTypesTest((Activity) message, connector, sc);
             await connector.Conversations.ReplyToActivityAsync(dtResult);
         }
         else if (message.Text.Contains("CardTypesTest"))
         {
-            var ctResult = await cardTypesTest(message, connector);
+            var ctResult = await cardTypesTest((Activity) message, connector);
             await connector.Conversations.ReplyToActivityAsync(ctResult);
         }
         else
