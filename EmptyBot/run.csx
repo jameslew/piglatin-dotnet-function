@@ -9,7 +9,6 @@ using System.Threading;
 using Newtonsoft.Json;
 using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using System.Text.RegularExpressions;
 
