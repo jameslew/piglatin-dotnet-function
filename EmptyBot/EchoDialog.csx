@@ -39,22 +39,21 @@ public class EchoDialog : IDialog<object>
 
         var connector = new ConnectorClient(new Uri("https://intercomScratch.azure-api.net"), new Microsoft.Bot.Connector.MicrosoftAppCredentials());
         var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
-        var botState = new BotState(sc);
 
         if (message.Text.Contains("MessageTypesTest"))
         {
             Trace.TraceInformation("Starting MessageTypesTest");
-            var mtResult = await messageTypesTest((Activity) message, connector, botState); 
+            var mtResult = await messageTypesTest((Activity) message, connector, sc); 
             await connector.Conversations.ReplyToActivityAsync(mtResult);
         }
         else if (message.Text.Contains("DataTypesTest"))
         {
-            var dtResult = await dataTypesTest(message, connector);
+            var dtResult = await dataTypesTest(message, connector, sc);
             await connector.Conversations.ReplyToActivityAsync(dtResult);
         }
         else if (message.Text.Contains("CardTypesTest"))
         {
-            var ctResult = await cardTypesTest(message, connector, botState);
+            var ctResult = await cardTypesTest(message, connector);
             await connector.Conversations.ReplyToActivityAsync(ctResult);
         }
         else
@@ -64,9 +63,10 @@ public class EchoDialog : IDialog<object>
         dlgCtxt.Wait(MessageReceivedAsync);
     }
 
-    private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, BotState botState)
+    private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc)
     {
-          StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
+        var botState = new BotState(sc);
         // DM a user 
         try
         {
