@@ -55,7 +55,7 @@ public class EchoDialog : IDialog<object>
         else if (message.Text.Contains("CardTypesTest"))
         {
             var ctResult = await cardTypesTest(message, context);
-            wait connector.Conversations.ReplyToActivityAsync(ctResult);
+            await connector.Conversations.ReplyToActivityAsync(ctResult);
         }
         else
         {
