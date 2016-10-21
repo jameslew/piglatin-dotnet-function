@@ -36,7 +36,7 @@ public class EchoDialog : IDialog<object>
     public virtual async Task MessageReceivedAsync(IDialogContext dlgCtxt, IAwaitable<IMessageActivity> argument)
     {
         var message = await argument;
-        
+
         var connector = new ConnectorClient(new Uri("https://intercomScratch.azure-api.net"), new Microsoft.Bot.Connector.MicrosoftAppCredentials());
         var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
         var botState = new BotState(sc);
@@ -45,17 +45,17 @@ public class EchoDialog : IDialog<object>
         {
             Trace.TraceInformation("Starting MessageTypesTest");
             var mtResult = await messageTypesTest((Activity) message, connector, botState); 
-            //await connector.Conversations.ReplyToActivityAsync(mtResult);
+            await connector.Conversations.ReplyToActivityAsync(mtResult);
         }
         else if (message.Text.Contains("DataTypesTest"))
         {
-            //var dtResult = await dataTypesTest(message, context);
-            //await connector.Conversations.ReplyToActivityAsync(dtResult);
+            var dtResult = await dataTypesTest(message, context);
+            await connector.Conversations.ReplyToActivityAsync(dtResult);
         }
         else if (message.Text.Contains("CardTypesTest"))
         {
-            //var ctResult = await cardTypesTest(message, context);
-            //await connector.Conversations.ReplyToActivityAsync(ctResult);
+            var ctResult = await cardTypesTest(message, context);
+            wait connector.Conversations.ReplyToActivityAsync(ctResult);
         }
         else
         {
