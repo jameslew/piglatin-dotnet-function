@@ -118,19 +118,6 @@
           }
         }
       },
-      "Microsoft.Bot.Connector.DirectLine/1.0.1": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Rest.ClientRuntime": "[1.8.2, 2.0.0)",
-          "Newtonsoft.Json": "7.0.1"
-        },
-        "compile": {
-          "lib/net45/Microsoft.Bot.Connector.DirectLine.dll": {}
-        },
-        "runtime": {
-          "lib/net45/Microsoft.Bot.Connector.DirectLine.dll": {}
-        }
-      },
       "Microsoft.Diagnostics.Tracing.EventSource.Redist/1.1.28": {
         "type": "package",
         "compile": {
