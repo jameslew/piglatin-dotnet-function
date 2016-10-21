@@ -12,16 +12,14 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-private static readonly IDictionary<string, string> mapEnvToStateApi = new Dictionary<string, string> {
-  {"scratch", "https://intercom-api-scratch.azurewebsites.net/" },
-  {"ppe", "https://intercom-api-ppe.azurewebsites.net/"},
-  {"prod", "https://state.botframework.com/"}
-};
  
 private static string GetStateApi() 
 {
-  var botEnv = GetEnv("BotEnv") ?? "scratch";
-  return mapEnvToStateApi[botEnv.ToLowerInvariant()];
+  var result = GetEnv("BotStateEndpoint");
+  if (String.IsNullOrEmpty(result)) {
+    result = "https://state.botframework.com/";
+  }
+  return result;
 }
  
 private static Lazy<string> stateApi = new Lazy<string>(GetStateApi);

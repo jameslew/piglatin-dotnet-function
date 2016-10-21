@@ -16,7 +16,7 @@
       "Microsoft.Rest.ClientRuntime": "2.3.2",
       "Microsoft.WindowsAzure.ConfigurationManager": "3.2.1",
       "Newtonsoft.Json": "8.0.3",
-      "System.IdentityModel.Tokens.Jwt": "4.0.2.206221351" 
+      "System.IdentityModel.Tokens.Jwt": "4.0.2.206221351"
       }
     }
    }
