@@ -97,7 +97,7 @@ public class EchoDialog : IDialog<object>
 
         List<CardAction> heroCardButtons = new List<CardAction>();
 
-        CardAction herPlButton = new CardAction()
+        CardAction heroPlButton = new CardAction()
         {
             Value = "https://en.wikipedia.org/wiki/Pig_Latin",
             Type = "openUrl",
@@ -114,7 +114,7 @@ public class EchoDialog : IDialog<object>
         };
 
         Attachment heroPlAttachment = heroPlCard.ToAttachment();
-        heroReply.Attachments.Add(plAttachment);
+        heroReply.Attachments.Add(heroPlAttachment);
 
         var heroResult = await connector.Conversations.SendToConversationAsync(heroReply);
         if (heroResult != null)
@@ -150,7 +150,7 @@ public class EchoDialog : IDialog<object>
         };
 
         Attachment tnPlAttachment = plCard.ToAttachment();
-        thumbnailCardReply.Attachments.Add(plAttachment);
+        thumbnailCardReply.Attachments.Add(tnPlAttachment);
 
         var tnCardResult = await connector.Conversations.SendToConversationAsync(thumbnailCardReply);
         if (tnCardResult != null)
@@ -243,10 +243,10 @@ public class EchoDialog : IDialog<object>
             sb.AppendLine(reply.Message);
 
         // reply to to everyone with a Carousel of three hero cards
-        Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, with a fancy schmancy hero card"));
-        replyToConversation.Recipient = message.From;
-        replyToConversation.Type = "message";
-        replyToConversation.Attachments = new List<Attachment>();
+        Activity carouselCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a fancy schmancy hero card"));
+        carouselCardReply.Recipient = message.From;
+        carouselCardReply.Type = "message";
+        carouselCardReply.Attachments = new List<Attachment>();
 
         Dictionary<string, string> cardContentList = new Dictionary<string, string>();
         cardContentList.Add("PigLatin", "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png");
@@ -255,37 +255,37 @@ public class EchoDialog : IDialog<object>
 
         foreach(KeyValuePair<string, string> cardContent in cardContentList)
         {
-            List<CardImage> cardImages = new List<CardImage>();
-            cardImages.Add(new CardImage(url:cardContent.Value ));
+            List<CardImage> carouselCardImages = new List<CardImage>();
+            carouselCardImages.Add(new CardImage(url:cardContent.Value ));
 
-            List<CardAction> cardButtons = new List<CardAction>();
+            List<CardAction> carouselCardButtons = new List<CardAction>();
 
-            CardAction plButton = new CardAction()
+            CardAction carouselPlButton = new CardAction()
             {
                 Value = $"https://en.wikipedia.org/wiki/{cardContent.Key}",
                 Type = "openUrl",
                 Title = "WikiPedia Page"
             };
-            cardButtons.Add(plButton);
+            carouselCardButtons.Add(carouselPlButton);
 
-            HeroCard plCard = new HeroCard()
+            HeroCard carouselPlCard = new HeroCard()
             {
                 Title = translateToPigLatin($"I'm a hero card about {cardContent.Key}"),
                 Subtitle = $"{cardContent.Key} Wikipedia Page",
-                Images = cardImages,
-                Buttons = cardButtons
+                Images = carouselCardImages,
+                Buttons = carouselCardButtons
             };
 
-            Attachment plAttachment = plCard.ToAttachment();
-            replyToConversation.Attachments.Add(plAttachment);
+            Attachment carouselPlAttachment = carouselPlCard.ToAttachment();
+            carouselCardReply.Attachments.Add(carouselPlAttachment);
         }
 
-        replyToConversation.AttachmentLayout = AttachmentLayoutTypes.Carousel;
+        carouselCardReply.AttachmentLayout = AttachmentLayoutTypes.Carousel;
 
-        var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
+        var carouselCardResult = await connector.Conversations.SendToConversationAsync(carouselCardReply);
 
-        if (reply != null)
-            sb.AppendLine(reply.Message);
+        if (carouselCardResult != null)
+            sb.AppendLine(carouselCardResult.Message);
 
         return message.CreateReply(translateToPigLatin("Completed CardTypesTest"));
     }
