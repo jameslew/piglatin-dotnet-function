@@ -37,7 +37,10 @@ public class EchoDialog : IDialog<object>
     {
         var message = await argument;
 
-
+        {
+            await dlgCtxt.PostAsync(translateToPigLatin(message.Text));
+        }
+        dlgCtxt.Wait(MessageReceivedAsync);
     }
 
 
