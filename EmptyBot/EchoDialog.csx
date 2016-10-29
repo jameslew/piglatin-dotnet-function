@@ -66,6 +66,37 @@ public class EchoDialog : IDialog<object>
     private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc)
     {
 
+        StringBuilder sb = new StringBuilder();
+        var botState = new BotState(sc);
+        // DM a user 
+        var newDirectToUser = new Activity()
+        {
+            Text = "Should go directly to user",
+            Type = "message",
+            From = message.Recipient,
+            Recipient = message.From,
+            ChannelId = message.ChannelId
+        };
+
+        var ConversationId = await connector.Conversations.CreateDirectConversationAsync(message.Recipient, message.From);
+        newDirectToUser.Conversation = new ConversationAccount(id: ConversationId.Id);
+        var reply = await connector.Conversations.SendToConversationAsync(newDirectToUser);
+        if (reply != null)
+            sb.AppendLine(reply.Message);
+
+
+        // message to conversation not directed to user using CreateReply
+        Activity replyToConversation = message.CreateReply("Should go to conversation, but does not address the user that generated it");
+        var bcReply = await connector.Conversations.SendToConversationAsync(replyToConversation);
+        if(bcReply != null)
+            sb.AppendLine(bcReply.Message);
+
+        // reply to to user using CreateReply
+        Activity replyToConversation = message.CreateReply("Should go to conversation, but addressing the user that generated it");
+        replyToConversation.Recipient = message.From;
+        var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
+        if (reply != null)
+            sb.AppendLine(reply.Message);
 
         return message.CreateReply(translateToPigLatin("Completed MessageTypesTest"));
     }

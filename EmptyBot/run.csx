@@ -1,6 +1,5 @@
 #r "Newtonsoft.Json"
 #load "PostDialogExtensions.csx"
-#load "EchoDialog.csx"
 #load "Utils.csx"
 
 using System;
@@ -36,7 +35,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         switch (message.GetActivityType())
         {
             case ActivityTypes.Message:
-                await message.PostInScratchAsync(() => new EchoDialog());
+                //await message.PostInScratchAsync(() => new EchoDialog());
                 break;
             case ActivityTypes.ConversationUpdate:
                 foreach(ChannelAccount added in message.MembersAdded)
