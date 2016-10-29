@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Internals;
-//using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector;
 using System.Diagnostics;
 using Autofac;
 using System.Text;
