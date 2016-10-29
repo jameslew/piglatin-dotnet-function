@@ -71,11 +71,11 @@ public class EchoDialog : IDialog<object>
             sb.AppendLine(bcReply.Message);
 
         // reply to to user using CreateReply
-        Activity replyToConversation = message.CreateReply("Should go to conversation, but addressing the user that generated it");
-        replyToConversation.Recipient = message.From;
-        var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-        if (reply != null)
-            sb.AppendLine(reply.Message);
+        Activity newConversation = message.CreateReply("Should go to conversation, but addressing the user that generated it");
+        newConversation.Recipient = message.From;
+        var replyWNewConversation = await connector.Conversations.SendToConversationAsync(newConversation);
+        if (replyWNewConversation != null)
+            sb.AppendLine(replyWNewConversation.Message);
 
         return message.CreateReply(translateToPigLatin("Completed MessageTypesTest"));
     }
@@ -86,100 +86,100 @@ public class EchoDialog : IDialog<object>
         StringBuilder sb = new StringBuilder();
 
         // reply to to everyone with a PigLatin Hero Card
-        Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, with a fancy schmancy hero card"));
-        replyToConversation.Recipient = message.From;
-        replyToConversation.Type = "message";
-        replyToConversation.Attachments = new List<Attachment>();
+        Activity heroReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a fancy schmancy hero card"));
+        heroReply.Recipient = message.From;
+        heroReply.Type = "message";
+        heroReply.Attachments = new List<Attachment>();
 
-        List<CardImage> cardImages = new List<CardImage>();
-        cardImages.Add(new CardImage(url: "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"));
-        cardImages.Add(new CardImage(url: "https://2.bp.blogspot.com/-Ab3oCVhOBjI/Ti23EzV3WCI/AAAAAAAAB1o/tiTeBslO6iU/s1600/bacon.jpg"));
+        List<CardImage> heroCardImages = new List<CardImage>();
+        heroCardImages.Add(new CardImage(url: "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"));
+        heroCardImages.Add(new CardImage(url: "https://2.bp.blogspot.com/-Ab3oCVhOBjI/Ti23EzV3WCI/AAAAAAAAB1o/tiTeBslO6iU/s1600/bacon.jpg"));
 
-        List<CardAction> cardButtons = new List<CardAction>();
+        List<CardAction> heroCardButtons = new List<CardAction>();
 
-        CardAction plButton = new CardAction()
+        CardAction herPlButton = new CardAction()
         {
             Value = "https://en.wikipedia.org/wiki/Pig_Latin",
             Type = "openUrl",
             Title = "WikiPedia Page"
         };
-        cardButtons.Add(plButton);
+        heroCardButtons.Add(heroPlButton);
 
-        HeroCard plCard = new HeroCard()
+        HeroCard heroPlCard = new HeroCard()
         {
             Title = translateToPigLatin("I'm a hero card, aren't I fancy?"),
             Subtitle = "Pig Latin Wikipedia Page",
-            Images = cardImages,
-            Buttons = cardButtons
+            Images = heroCardImages,
+            Buttons = heroCardButtons
         };
 
-        Attachment plAttachment = plCard.ToAttachment();
-        replyToConversation.Attachments.Add(plAttachment);
+        Attachment heroPlAttachment = heroPlCard.ToAttachment();
+        heroReply.Attachments.Add(plAttachment);
 
-        var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-        if (reply != null)
-            sb.AppendLine(reply.Message);
+        var heroResult = await connector.Conversations.SendToConversationAsync(heroReply);
+        if (heroResult != null)
+            sb.AppendLine(heroResult.Message);
 
 
         // reply to to everyone with a PigLatin Thumbnail Card
 
-        Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, with a smaller, but still fancy thumbnail card"));
-        replyToConversation.Recipient = message.From;
-        replyToConversation.Type = "message";
-        replyToConversation.Attachments = new List<Attachment>();
+        Activity thumbnailCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a smaller, but still fancy thumbnail card"));
+        thumbnailCardReply.Recipient = message.From;
+        thumbnailCardReply.Type = "message";
+        thumbnailCardReply.Attachments = new List<Attachment>();
 
-        List<CardImage> cardImages = new List<CardImage>();
-        cardImages.Add(new CardImage(url: "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"));
+        List<CardImage> tnCardImages = new List<CardImage>();
+        tnCardImages.Add(new CardImage(url: "https://3.bp.blogspot.com/-7zDiZVD5kAk/T47LSvDM_jI/AAAAAAAAByM/AUhkdynaJ1Y/s200/i-speak-pig-latin.png"));
 
-        List<CardAction> cardButtons = new List<CardAction>();
+        List<CardAction> tnCardButtons = new List<CardAction>();
 
-        CardAction plButton = new CardAction()
+        CardAction tnPlButton = new CardAction()
         {
             Value = "https://en.wikipedia.org/wiki/Pig_Latin",
             Type = "openUrl",
             Title = "WikiPedia Page"
         };
-        cardButtons.Add(plButton);
+        tnCardButtons.Add(tnPlButton);
 
-        ThumbnailCard plCard = new ThumbnailCard()
+        ThumbnailCard tnPlCard = new ThumbnailCard()
         {
             Title = translateToPigLatin("I'm a hero card, aren't I fancy?"),
             Subtitle = "Pig Latin Wikipedia Page",
-            Images = cardImages,
-            Buttons = cardButtons
+            Images = tnCardImages,
+            Buttons = tnCardButtons
         };
 
-        Attachment plAttachment = plCard.ToAttachment();
-        replyToConversation.Attachments.Add(plAttachment);
+        Attachment tnPlAttachment = plCard.ToAttachment();
+        thumbnailCardReply.Attachments.Add(plAttachment);
 
-        var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-        if (reply != null)
-            sb.AppendLine(reply.Message);
+        var tnCardResult = await connector.Conversations.SendToConversationAsync(thumbnailCardReply);
+        if (tnCardResult != null)
+            sb.AppendLine(tnCardResult.Message);
 
         // reply to to everyone with a PigLatin Signin card
-        Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, sign-in card"));
-        replyToConversation.Recipient = message.From;
-        replyToConversation.Type = "message";
-        replyToConversation.Attachments = new List<Attachment>();
+        Activity signinCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, sign-in card"));
+        signinCardReply.Recipient = message.From;
+        signinCardReply.Type = "message";
+        signinCardReply.Attachments = new List<Attachment>();
 
-        List<CardAction> cardButtons = new List<CardAction>();
+        List<CardAction> siCardButtons = new List<CardAction>();
 
-        CardAction plButton = new CardAction()
+        CardAction siPlButton = new CardAction()
         {
             Value = "https://spott.cloudapp.net/setup?id=838303b66d9a4f4c7308fa465c5abf74",
             Type = "signin",
             Title = "Connect"
         };
-        cardButtons.Add(plButton);
+        siCardButtons.Add(siPlButton);
 
-        SigninCard plCard = new SigninCard( text:"You need to authorize me to access Spotify", buttons: cardButtons);
+        SigninCard siPlCard = new SigninCard( text:"You need to authorize me to access Spotify", buttons: siCardButtons);
 
-        Attachment plAttachment = plCard.ToAttachment();
-        replyToConversation.Attachments.Add(plAttachment);
+        Attachment siPlAttachment = siPlCard.ToAttachment();
+        signinCardReply.Attachments.Add(siPlAttachment);
 
-        var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-        if (reply != null)
-            sb.AppendLine(reply.Message);
+        var siCardResult = await connector.Conversations.SendToConversationAsync(signinCardReply);
+        if (siCardResult != null)
+            sb.AppendLine(siCardResult.Message);
 
         // reply to to everyone with a PigLatin Receipt Card
         Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, with a smaller, but still fancy thumbnail card"));
