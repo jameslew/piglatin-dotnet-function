@@ -1,5 +1,6 @@
 #r "Newtonsoft.Json"
 #load "PostDialogExtensions.csx"
+#load "EchoDialog.csx"
 #load "Utils.csx"
 
 using System;
