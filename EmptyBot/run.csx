@@ -32,14 +32,14 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     if (message != null)
     {
-        // one of these will have an interface and process it
+        // one of these will have an interface and process it again
         switch (message.GetActivityType())
         {
             case ActivityTypes.Message:
                 
                 if (message.Text.Contains("MessageTypesTest"))
                 { 
-                    var mtResult = await messageTypesTest((Activity) message, connector, sc, dlgCtxt); 
+                    var mtResult = await messageTypesTest((Activity) message, connector, sc); 
                     await connector.Conversations.ReplyToActivityAsync(mtResult);
                 }
                 else if (message.Text.Contains("DataTypesTest"))
