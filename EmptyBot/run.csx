@@ -56,7 +56,9 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 else
                 {
                     log.Info(message.Text);
-                    await connector.Conversations.SendToConversationAsync(translateToPigLatin(message.Text));
+                    var msgReply = connector.Conversations.CreateReply(message);
+                    msgReply.Text = translateToPigLatin(message.Text);
+                    await connector.Conversations.SendToConversationAsync(msgReply);
                 }
                 break;
 
