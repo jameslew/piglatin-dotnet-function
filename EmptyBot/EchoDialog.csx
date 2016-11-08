@@ -10,60 +10,7 @@ using Autofac;
 using System.Text;
 using Microsoft.Rest;
 
-[Serializable]
-public class EchoDialog : IDialog<object>
-{
-    protected int count = 1;
-
-    public Task StartAsync(IDialogContext context)
-    {
-        try
-        {
-            context.Wait(MessageReceivedAsync);
-        }
-        catch (OperationCanceledException error)
-        {
-            return Task.FromCanceled(error.CancellationToken);
-        }
-        catch (Exception error)
-        {
-            return Task.FromException(error);
-        }
-
-        return Task.CompletedTask;
-    }
-
-    public virtual async Task MessageReceivedAsync(IDialogContext dlgCtxt, IAwaitable<IMessageActivity> argument)
-    {
-        var message = await argument;
-        var connector = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
-        var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
-
-
-        if (message.Text.Contains("MessageTypesTest"))
-        { 
-            
-            var mtResult = await messageTypesTest((Activity) message, connector, sc, dlgCtxt); 
-            await connector.Conversations.ReplyToActivityAsync(mtResult);
-        }
-        else if (message.Text.Contains("DataTypesTest"))
-        {
-            var dtResult = await dataTypesTest((Activity) message, connector, sc);
-            await connector.Conversations.ReplyToActivityAsync(dtResult);
-        }
-        else if (message.Text.Contains("CardTypesTest"))
-        {
-            var ctResult = await cardTypesTest((Activity) message, connector);
-            await connector.Conversations.ReplyToActivityAsync(ctResult);
-        }
-        else
-        {
-            await dlgCtxt.PostAsync(translateToPigLatin(message.Text));
-        }
-        
-        dlgCtxt.Wait(MessageReceivedAsync);
-    }
-
+class MessageHandler {
 
     private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc, IDialogContext context)
     {

@@ -25,8 +25,8 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     string jsonContent = await req.Content.ReadAsStringAsync();
 
     var message = JsonConvert.DeserializeObject<Activity>(jsonContent);
-    ConnectorClient connector = new ConnectorClient(new Uri("https://intercomScratch.azure-api.net"), new Microsoft.Bot.Connector.MicrosoftAppCredentials());
-    StateClient sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
+    var connector = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
+    var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
     BotState botState = new BotState(sc);
     DateTime lastModifiedPolicies = DateTime.Parse("2015-10-01");
 
@@ -36,8 +36,29 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         switch (message.GetActivityType())
         {
             case ActivityTypes.Message:
-                await message.PostInScratchAsync(() => new EchoDialog());
+                var message = await argument;
+
+                if (message.Text.Contains("MessageTypesTest"))
+                { 
+                    var mtResult = await messageTypesTest((Activity) message, connector, sc, dlgCtxt); 
+                    await connector.Conversations.ReplyToActivityAsync(mtResult);
+                }
+                else if (message.Text.Contains("DataTypesTest"))
+                {
+                    var dtResult = await dataTypesTest((Activity) message, connector, sc);
+                    await connector.Conversations.ReplyToActivityAsync(dtResult);
+                }
+                else if (message.Text.Contains("CardTypesTest"))
+                {
+                    var ctResult = await cardTypesTest((Activity) message, connector);
+                    await connector.Conversations.ReplyToActivityAsync(ctResult);
+                }
+                else
+                {
+                    await connector.Conversations.ReplyToActivityAsync(translateToPigLatin(message.Text));
+                }
                 break;
+
             case ActivityTypes.ConversationUpdate:
                 foreach(ChannelAccount added in message.MembersAdded)
                 {
