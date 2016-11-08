@@ -55,7 +55,8 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 }
                 else
                 {
-                    await connector.Conversations.ReplyToActivityAsync(translateToPigLatin((Activity) message.Text));
+                    log(messageText);
+                    await connector.Conversations.ReplyToActivityAsync(translateToPigLatin(message.Text));
                 }
                 break;
 
