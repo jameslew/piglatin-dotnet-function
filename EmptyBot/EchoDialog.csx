@@ -12,7 +12,7 @@ using Microsoft.Rest;
 
 class botTests {
 
-    async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc)
+    public async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc)
     {
 
         StringBuilder sb = new StringBuilder();
@@ -52,7 +52,7 @@ class botTests {
     }
 
 
-    async Task<Activity> cardTypesTest(Activity message, ConnectorClient connector)
+    public async Task<Activity> cardTypesTest(Activity message, ConnectorClient connector)
     {
 
         StringBuilder sb = new StringBuilder();
@@ -262,7 +262,7 @@ class botTests {
         return message.CreateReply(translateToPigLatin("Completed CardTypesTest"));
     }
 
-    async Task<Activity> dataTypesTest(Activity message, ConnectorClient connector, StateClient sc)
+    public async Task<Activity> dataTypesTest(Activity message, ConnectorClient connector, StateClient sc)
     {
 
         BotState botState = new BotState(sc);
