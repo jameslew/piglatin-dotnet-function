@@ -16,7 +16,7 @@ class MessageHandler {
     {
 
         StringBuilder sb = new StringBuilder();
-        /*var botState = new BotState(sc);
+        /* var botState = new BotState(sc);
         // DM a user 
         var newDirectToUser = new Activity()
         {
