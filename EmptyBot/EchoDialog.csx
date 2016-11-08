@@ -12,7 +12,7 @@ using Microsoft.Rest;
 
 class MessageHandler {
 
-    private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc, IDialogContext context)
+    private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc)
     {
 
         StringBuilder sb = new StringBuilder();

@@ -36,8 +36,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         switch (message.GetActivityType())
         {
             case ActivityTypes.Message:
-                var message = await argument;
-
+                
                 if (message.Text.Contains("MessageTypesTest"))
                 { 
                     var mtResult = await messageTypesTest((Activity) message, connector, sc, dlgCtxt); 
