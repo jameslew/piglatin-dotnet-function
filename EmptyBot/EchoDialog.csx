@@ -10,7 +10,7 @@ using Autofac;
 using System.Text;
 using Microsoft.Rest;
 
-//class MessageHandler {
+class botTests {
 
     private async Task<Activity> messageTypesTest(Activity message, ConnectorClient connector, StateClient sc)
     {
@@ -329,4 +329,4 @@ using Microsoft.Rest;
     }
 
 
-//}
+}

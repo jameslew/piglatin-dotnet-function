@@ -29,6 +29,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
     BotState botState = new BotState(sc);
     DateTime lastModifiedPolicies = DateTime.Parse("2015-10-01");
+    botTests = new botTests();
 
     if (message != null)
     {
@@ -39,17 +40,17 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 
                 if (message.Text.Contains("MessageTypesTest"))
                 { 
-                    var mtResult = await messageTypesTest((Activity) message, connector, sc); 
+                    var mtResult = await botTests.messageTypesTest((Activity) message, connector, sc); 
                     await connector.Conversations.ReplyToActivityAsync(mtResult);
                 }
                 else if (message.Text.Contains("DataTypesTest"))
                 {
-                    var dtResult = await dataTypesTest((Activity) message, connector, sc);
+                    var dtResult = await botTests.dataTypesTest((Activity) message, connector, sc);
                     await connector.Conversations.ReplyToActivityAsync(dtResult);
                 }
                 else if (message.Text.Contains("CardTypesTest"))
                 {
-                    var ctResult = await cardTypesTest((Activity) message, connector);
+                    var ctResult = await botTests.cardTypesTest((Activity) message, connector);
                     await connector.Conversations.ReplyToActivityAsync(ctResult);
                 }
                 else
