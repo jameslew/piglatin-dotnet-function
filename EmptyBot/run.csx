@@ -33,6 +33,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     if (message != null)
     {
+        log.Info(string.Format("ActivityType {0}, Activity.Text {1}", message.GetActivityType(), message.Text));
         // one of these will have an interface and process it again
         switch (message.GetActivityType())
         {
@@ -129,15 +130,19 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 }
 
                 //maybe someone got removed
-                foreach (ChannelAccount removed in message.MembersRemoved)
+                if (message.MembersRemoved != null)
                 {
-                    Activity removedMessage = message.CreateReply();
-                    removedMessage.Locale = "en";
+                    foreach (ChannelAccount removed in message.MembersRemoved)
+                    {
+                        Activity removedMessage = message.CreateReply();
+                        removedMessage.Locale = "en";
 
-                    removedMessage.Text = string.Format("{0}", removed.Name) + translateToPigLatin(" has Left the building");
-                    var reply = await connector.Conversations.ReplyToActivityAsync(removedMessage);
+                        removedMessage.Text = string.Format("{0}", removed.Name) + translateToPigLatin(" has Left the building");
+                        var reply = await connector.Conversations.ReplyToActivityAsync(removedMessage);
+                    }
                 }
                 break;
+
             case ActivityTypes.ContactRelationUpdate:
             case ActivityTypes.Typing:
             case ActivityTypes.DeleteUserData:
