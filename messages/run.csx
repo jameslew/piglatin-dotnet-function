@@ -26,7 +26,8 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     var message = JsonConvert.DeserializeObject<Activity>(jsonContent);
     var connector = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
-    var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
+    //var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
+    var sc = new StateClient(new Uri("https://botstate.botframework.com"));
     BotState botState = new BotState(sc);
     DateTime lastModifiedPolicies = DateTime.Parse("2015-10-01");
     botTests tests = new botTests();
