@@ -60,6 +60,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                     log.Info("Processing Simple Message");
                     var msgReply = message.CreateReply(translateToPigLatin(message.Text));
                     await connector.Conversations.SendToConversationAsync(msgReply);
+                    log.Info("Completed sending Simple Message");
                 }
                 break;
 
