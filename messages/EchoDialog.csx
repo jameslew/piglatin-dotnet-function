@@ -38,15 +38,15 @@ class botTests {
         // message to conversation not directed to user using CreateReply
         Activity replyToConversation = message.CreateReply("Should go to conversation, but does not address the user that generated it");
         var bcReply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-        if(bcReply != null)
-            sb.AppendLine(bcReply.Message);
+//        if(bcReply != null)
+//            sb.AppendLine(bcReply.Message);
 
         // reply to to user using CreateReply
         Activity newConversation = message.CreateReply("Should go to conversation, but addressing the user that generated it");
         newConversation.Recipient = message.From;
         var replyWNewConversation = await connector.Conversations.SendToConversationAsync(newConversation);
-        if (replyWNewConversation != null)
-            sb.AppendLine(replyWNewConversation.Message);
+//        if (replyWNewConversation != null)
+//            sb.AppendLine(replyWNewConversation.Message);
 
         return message.CreateReply(translateToPigLatin("Completed MessageTypesTest"));
     }
@@ -89,8 +89,8 @@ class botTests {
         heroReply.Attachments.Add(heroPlAttachment);
 
         var heroResult = await connector.Conversations.SendToConversationAsync(heroReply);
-        if (heroResult != null)
-            sb.AppendLine(heroResult.Message);
+//        if (heroResult != null)
+//            sb.AppendLine(heroResult.Message);
 
 
         // reply to to everyone with a PigLatin Thumbnail Card
@@ -125,8 +125,8 @@ class botTests {
         thumbnailCardReply.Attachments.Add(tnPlAttachment);
 
         var tnCardResult = await connector.Conversations.SendToConversationAsync(thumbnailCardReply);
-        if (tnCardResult != null)
-            sb.AppendLine(tnCardResult.Message);
+//        if (tnCardResult != null)
+//            sb.AppendLine(tnCardResult.Message);
 
         // reply to to everyone with a PigLatin Signin card
         Activity signinCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, sign-in card"));
@@ -150,8 +150,8 @@ class botTests {
         signinCardReply.Attachments.Add(siPlAttachment);
 
         var siCardResult = await connector.Conversations.SendToConversationAsync(signinCardReply);
-        if (siCardResult != null)
-            sb.AppendLine(siCardResult.Message);
+//        if (siCardResult != null)
+//            sb.AppendLine(siCardResult.Message);
 
         // reply to to everyone with a PigLatin Receipt Card
         Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, with a smaller, but still fancy thumbnail card"));
@@ -211,8 +211,8 @@ class botTests {
         replyToConversation.Attachments.Add(plAttachment);
 
         var reply = await connector.Conversations.SendToConversationAsync(replyToConversation);
-        if (reply != null)
-            sb.AppendLine(reply.Message);
+//        if (reply != null)
+//            sb.AppendLine(reply.Message);
 
         // reply to to everyone with a Carousel of three hero cards
         Activity carouselCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a fancy schmancy hero card"));
@@ -256,8 +256,8 @@ class botTests {
 
         var carouselCardResult = await connector.Conversations.SendToConversationAsync(carouselCardReply);
 
-        if (carouselCardResult != null)
-            sb.AppendLine(carouselCardResult.Message);
+//        if (carouselCardResult != null)
+//            sb.AppendLine(carouselCardResult.Message);
 
         return message.CreateReply(translateToPigLatin("Completed CardTypesTest"));
     }
