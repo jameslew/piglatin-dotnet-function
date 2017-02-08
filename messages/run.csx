@@ -25,6 +25,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     string jsonContent = await req.Content.ReadAsStringAsync();
 
     var message = JsonConvert.DeserializeObject<Activity>(jsonContent);
+    MicrosoftAppCredentials.TrustServiceUrl(message.ServiceUrl);
     var connector = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
     //var sc = new StateClient(new Uri(message.ChannelId == "emulator" ? message.ServiceUrl : "https://intercom-api-scratch.azurewebsites.net"), new MicrosoftAppCredentials());
     var sc = message.GetStateClient();
