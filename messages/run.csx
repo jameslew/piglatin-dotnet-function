@@ -41,17 +41,17 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         {
             case ActivityTypes.Message:
                 
-                if (message.Text.ToLower.Contains("message types test"))
+                if (message.Text.ToLower().Contains("message types test"))
                 { 
                     var mtResult = await tests.messageTypesTest((Activity) message, connector, sc); 
                     await connector.Conversations.ReplyToActivityAsync(mtResult);
                 }
-                else if (message.Text.ToLower.Contains("data types test"))
+                else if (message.Text.ToLower().Contains("data types test"))
                 {
                     var dtResult = await tests.dataTypesTest((Activity) message, connector, sc);
                     await connector.Conversations.ReplyToActivityAsync(dtResult);
                 }
-                else if (message.Text.ToLower.Contains("card types test"))
+                else if (message.Text.ToLower().Contains("card types test"))
                 {
                     var ctResult = await tests.cardTypesTest((Activity) message, connector);
                     await connector.Conversations.ReplyToActivityAsync(ctResult);
