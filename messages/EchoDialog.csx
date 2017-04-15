@@ -99,7 +99,7 @@ class botTests {
         Activity thumbnailCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a smaller, but still fancy thumbnail card"));
         thumbnailCardReply.Recipient = message.From;
         thumbnailCardReply.Type = "message";
-        thumbnailReply.InputHint = InputHints.IgnoringInput;
+        thumbnailCardReply.InputHint = InputHints.IgnoringInput;
         thumbnailCardReply.Attachments = new List<Attachment>();
 
         List<CardImage> tnCardImages = new List<CardImage>();
@@ -134,7 +134,7 @@ class botTests {
         Activity signinCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, sign-in card"));
         signinCardReply.Recipient = message.From;
         signinCardReply.Type = "message";
-        signInCardReply.InputHint = InputHints.IgnoringInput;
+        signinCardReply.InputHint = InputHints.IgnoringInput;
         signinCardReply.Attachments = new List<Attachment>();
 
         List<CardAction> siCardButtons = new List<CardAction>();
