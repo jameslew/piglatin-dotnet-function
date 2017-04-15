@@ -61,6 +61,7 @@ class botTests {
         Activity heroReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a fancy schmancy hero card"));
         heroReply.Recipient = message.From;
         heroReply.Type = "message";
+        heroReply.InputHint = InputHints.IgnoringInput;
         heroReply.Attachments = new List<Attachment>();
 
         List<CardImage> heroCardImages = new List<CardImage>();
@@ -98,6 +99,7 @@ class botTests {
         Activity thumbnailCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a smaller, but still fancy thumbnail card"));
         thumbnailCardReply.Recipient = message.From;
         thumbnailCardReply.Type = "message";
+        thumbnailReply.InputHint = InputHints.IgnoringInput;
         thumbnailCardReply.Attachments = new List<Attachment>();
 
         List<CardImage> tnCardImages = new List<CardImage>();
@@ -132,6 +134,7 @@ class botTests {
         Activity signinCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, sign-in card"));
         signinCardReply.Recipient = message.From;
         signinCardReply.Type = "message";
+        signInCardReply.InputHint = InputHints.IgnoringInput;
         signinCardReply.Attachments = new List<Attachment>();
 
         List<CardAction> siCardButtons = new List<CardAction>();
@@ -157,6 +160,7 @@ class botTests {
         Activity replyToConversation = message.CreateReply(translateToPigLatin("Should go to conversation, with a smaller, but still fancy thumbnail card"));
         replyToConversation.Recipient = message.From;
         replyToConversation.Type = "message";
+        replyToConversation.InputHint = InputHints.IgnoringInput;
         replyToConversation.Attachments = new List<Attachment>();
 
         List<CardImage> cardImages = new List<CardImage>();
@@ -218,6 +222,7 @@ class botTests {
         Activity carouselCardReply = message.CreateReply(translateToPigLatin("Should go to conversation, with a fancy schmancy hero card"));
         carouselCardReply.Recipient = message.From;
         carouselCardReply.Type = "message";
+        carouselCardReply.InputHint = InputHints.IgnoringInput;
         carouselCardReply.Attachments = new List<Attachment>();
 
         Dictionary<string, string> cardContentList = new Dictionary<string, string>();
