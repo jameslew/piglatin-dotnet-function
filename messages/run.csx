@@ -24,6 +24,8 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
     string jsonContent = await req.Content.ReadAsStringAsync();
 
+    log.Info(jsonContent);
+
     var message = JsonConvert.DeserializeObject<Activity>(jsonContent);
     MicrosoftAppCredentials.TrustServiceUrl(message.ServiceUrl);
     var connector = new ConnectorClient(new Uri(message.ServiceUrl), new MicrosoftAppCredentials());
