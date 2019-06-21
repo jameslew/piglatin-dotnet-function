@@ -58,6 +58,14 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                     var ctResult = await tests.cardTypesTest((Activity) message, connector);
                     await connector.Conversations.ReplyToActivityAsync(ctResult);
                 }
+                else if (message.Text.ToLower().Contains("slack blocks test"))
+                {
+                    log.Info("Slack Blocks Test Begin");
+                    var msgReply = message.CreateReply(translateToPigLatin(message.Text));
+                    msgReply.channelData = '{"blocks":[{"text":{"type":"section","text":{"type":"mrkdwn","text":"Are you using a Mac or PC?"}}},{"attachments":{"type":"actions","elements":[{"type":"button","text":{"type":"plain_text","emoji":true,"text":"I'm using a Mac"},"value":"I'm using a Mac"},{"type":"button","text":{"type":"plain_text","emoji":true,"text":"I'm using Windows"},"value":"I'm using Windows"}]}}]}';
+                    await connector.Conversations.SendToConversationAsync(msgReply);
+                    log.Info("Slack Blocks Test End);
+                }
                 else
                 {
                     log.Info("Processing Simple Message");
