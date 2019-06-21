@@ -61,7 +61,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 else if (message.Text.ToLower().Contains("slack blocks test"))
                 {
                     log.Info("Slack Blocks Test Begin");
-                    var msgReply = message.CreateReply(translateToPigLatin(message.Text));
+                    var msgReply = message.CreateReply(translateToPigLatin('Populating channelData'));
                     msgReply.channelData = '{"blocks":[{"text":{"type":"section","text":{"type":"mrkdwn","text":"Are you using a Mac or PC?"}}},{"attachments":{"type":"actions","elements":[{"type":"button","text":{"type":"plain_text","emoji":true,"text":"I'm using a Mac"},"value":"I'm using a Mac"},{"type":"button","text":{"type":"plain_text","emoji":true,"text":"I'm using Windows"},"value":"I'm using Windows"}]}}]}';
                     await connector.Conversations.SendToConversationAsync(msgReply);
                     log.Info("Slack Blocks Test End);
